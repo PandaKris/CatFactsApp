@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CatFactsApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cat_list">Cat List</string>
+    <string name="cat_detail">Cat Detail</string>
+
+    <string name="id_text">ID : %1$s</string>
+</resources>
