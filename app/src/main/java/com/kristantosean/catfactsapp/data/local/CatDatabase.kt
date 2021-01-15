@@ -15,7 +15,8 @@ private lateinit var INSTANCE: CatDatabase
 fun getCatDatabase(context: Context): CatDatabase {
     synchronized(CatDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(context.applicationContext, CatDatabase::class.java, "cats").fallbackToDestructiveMigration().build()
+            INSTANCE = Room.databaseBuilder(context.applicationContext, CatDatabase::class.java, "cats")
+                .fallbackToDestructiveMigration().build()
         }
     }
 

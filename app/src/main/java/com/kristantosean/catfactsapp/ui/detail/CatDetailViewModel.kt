@@ -19,8 +19,8 @@ class CatDetailViewModel(application: Application, id: String) : AndroidViewMode
     private var _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
-    val eventNetworkError: LiveData<Boolean> get() = _eventNetworkError
+    private var _eventNetworkError = MutableLiveData<Exception?>(null)
+    val eventNetworkError: LiveData<Exception?> get() = _eventNetworkError
 
     init {
         refreshDataFromRepository(id)
@@ -30,10 +30,11 @@ class CatDetailViewModel(application: Application, id: String) : AndroidViewMode
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                _cat.value = catFactRepository.getCatByID(id)
-                _eventNetworkError.value = false
-            } catch (networkError: Exception) {
-                _eventNetworkError.value = true
+                val result = catFactRepository.getCatByID(id)
+                _cat.value = result.data
+                _eventNetworkError.value = result.error
+            } catch (e: Exception) {
+                _eventNetworkError.value = e
             } finally {
                 _isLoading.value = false
             }

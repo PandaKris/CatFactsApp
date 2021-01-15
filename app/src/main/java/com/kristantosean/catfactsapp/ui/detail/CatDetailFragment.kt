@@ -38,7 +38,7 @@ class CatDetailFragment : Fragment() {
         })
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer {
-            if (it) onNetworkError()
+            if (it != null) onNetworkError()
         })
 
         viewModel.isLoading.observe(viewLifecycleOwner, Observer {

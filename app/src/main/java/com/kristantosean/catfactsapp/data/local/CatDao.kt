@@ -7,7 +7,7 @@ import androidx.room.*
 interface CatDao {
 
     @Query("select * from catfactlocal")
-    fun getCatFacts(): LiveData<List<CatFactLocal>>
+    fun getCatFacts(): List<CatFactLocal>
 
     @Query("select * from catfactlocal WHERE id = :id")
     fun getCatFactByID(id: String): CatFactLocal?
