@@ -9,9 +9,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.lang.Exception
 
-class CatDetailViewModel(application: Application, id: String) : AndroidViewModel(application) {
-
-    private val catFactRepository = CatRepository(getCatDatabase(application))
+class CatDetailViewModel(application: Application, private val catRepository: CatRepository, id: String) : AndroidViewModel(application) {
 
     private var _cat = MutableLiveData<CatFact?>()
     val cat: LiveData<CatFact?> get() = _cat
@@ -30,7 +28,7 @@ class CatDetailViewModel(application: Application, id: String) : AndroidViewMode
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = catFactRepository.getCatByID(id)
+                val result = catRepository.getCatByID(id)
                 _cat.value = result.data
                 _eventNetworkError.value = result.error
             } catch (e: Exception) {
@@ -45,7 +43,7 @@ class CatDetailViewModel(application: Application, id: String) : AndroidViewMode
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(CatDetailViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CatDetailViewModel(app, id) as T
+                return CatDetailViewModel(app, CatRepository(getCatDatabase(app)), id) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }
