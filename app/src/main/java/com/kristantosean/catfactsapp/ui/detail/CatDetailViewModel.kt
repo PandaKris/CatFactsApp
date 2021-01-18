@@ -4,12 +4,17 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.kristantosean.catfactsapp.data.CatFact
 import com.kristantosean.catfactsapp.data.local.getCatDatabase
+import com.kristantosean.catfactsapp.network.CatFactNetwork
 import com.kristantosean.catfactsapp.repository.CatRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.lang.Exception
 
-class CatDetailViewModel(application: Application, private val catRepository: CatRepository, id: String) : AndroidViewModel(application) {
+class CatDetailViewModel(
+    application: Application,
+    private val catRepository: CatRepository,
+    id: String
+) : AndroidViewModel(application) {
 
     private var _cat = MutableLiveData<CatFact?>()
     val cat: LiveData<CatFact?> get() = _cat
@@ -43,7 +48,11 @@ class CatDetailViewModel(application: Application, private val catRepository: Ca
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(CatDetailViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return CatDetailViewModel(app, CatRepository(getCatDatabase(app)), id) as T
+                return CatDetailViewModel(
+                    app,
+                    CatRepository(getCatDatabase(app), CatFactNetwork.catFactAPI),
+                    id
+                ) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

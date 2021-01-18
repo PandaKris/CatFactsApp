@@ -16,7 +16,7 @@ interface CatDao {
     fun insertAll(cats: List<CatFactLocal>)
 
     @Query("DELETE FROM catfactlocal")
-    fun deleteAll(): Unit
+    fun deleteAll()
 
     @Update
     fun update(cat: CatFactLocal)
