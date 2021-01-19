@@ -1,16 +1,12 @@
 package com.kristantosean.catfactsapp.ui.list
 
-import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.kristantosean.catfactsapp.data.CatFact
-import com.kristantosean.catfactsapp.data.local.getCatDatabase
-import com.kristantosean.catfactsapp.network.CatFactNetwork
 import com.kristantosean.catfactsapp.repository.CatRepository
 import kotlinx.coroutines.launch
-import java.io.IOException
 
-class CatListViewModel(application: Application, private val catRepository: CatRepository) :
-    AndroidViewModel(application) {
+class CatListViewModel @ViewModelInject constructor(private val catRepository: CatRepository) : ViewModel() {
 
     private var _cats = MutableLiveData<List<CatFact>>(listOf())
     val cats: LiveData<List<CatFact>> get() = _cats
@@ -38,21 +34,6 @@ class CatListViewModel(application: Application, private val catRepository: CatR
             } finally {
                 _isLoading.value = false
             }
-        }
-    }
-
-    class Factory(val app: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CatListViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return CatListViewModel(
-                    app, CatRepository(
-                        getCatDatabase(app),
-                        CatFactNetwork.catFactAPI
-                    )
-                ) as T
-            }
-            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }

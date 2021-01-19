@@ -9,8 +9,9 @@ import com.kristantosean.catfactsapp.network.CatFactService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
+import javax.inject.Inject
 
-class CatRepository(private val database: CatDatabase, private val catService: CatFactService) {
+class CatRepository @Inject constructor(private val database: CatDatabase, private val catService: CatFactService) {
 
     suspend fun refreshCats() : ResultContainer<List<CatFact>> {
         return withContext(Dispatchers.IO) {

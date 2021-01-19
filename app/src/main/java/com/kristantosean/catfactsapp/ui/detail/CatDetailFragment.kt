@@ -6,32 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.kristantosean.catfactsapp.R
 import com.kristantosean.catfactsapp.data.CatFact
-import com.kristantosean.catfactsapp.ui.list.CatListViewModel
 import com.kristantosean.catfactsapp.utils.DateFormatter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_cat_detail.*
-import kotlinx.android.synthetic.main.fragment_cat_list.*
-import kotlinx.android.synthetic.main.fragment_cat_list.progressBar
 
+@AndroidEntryPoint
 class CatDetailFragment : Fragment() {
 
     val args: CatDetailFragmentArgs by navArgs()
     private val dateFormatter = DateFormatter.makeFormatter()
 
-    private val viewModel: CatDetailViewModel by lazy {
-        val activity = requireNotNull(this.activity) { "You can only access the viewModel after onActivityCreated()" }
-        ViewModelProvider(this, CatDetailViewModel.Factory(activity.application, args.id)).get(CatDetailViewModel::class.java)
-    }
+    private val viewModel: CatDetailViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_cat_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModel.refreshDataFromRepository(args.id)
 
         viewModel.cat.observe(viewLifecycleOwner, Observer {
             it?.apply { updateView(it) }

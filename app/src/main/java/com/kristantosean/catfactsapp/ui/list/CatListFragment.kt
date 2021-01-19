@@ -5,23 +5,22 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kristantosean.catfactsapp.R
 import com.kristantosean.catfactsapp.ui.list.adapters.CatListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_cat_list.*
 import kotlinx.android.synthetic.main.fragment_cat_list.view.*
 
+@AndroidEntryPoint
 class CatListFragment : Fragment() {
 
     private var listAdapter: CatListAdapter? = null
 
-    private val viewModel: CatListViewModel by lazy {
-        val activity = requireNotNull(this.activity) { "You can only access the viewModel after onActivityCreated()" }
-        ViewModelProvider(this, CatListViewModel.Factory(activity.application)).get(CatListViewModel::class.java)
-    }
+    private val viewModel: CatListViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_cat_list, container, false)

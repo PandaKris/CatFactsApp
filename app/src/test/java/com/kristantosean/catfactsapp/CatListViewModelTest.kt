@@ -45,9 +45,6 @@ class CatListViewModelTest {
     @Mock
     private lateinit var networkErrorObserver: Observer<Exception?>
 
-    @Mock
-    private lateinit var mainApplication: MainApplication
-
     @Before
     fun setUp() {
     }
@@ -64,7 +61,7 @@ class CatListViewModelTest {
             Mockito.doReturn(ResultContainer(list, null)).`when`(catRepository).refreshCats()
 
             // Act
-            val viewModel = CatListViewModel(mainApplication, catRepository)
+            val viewModel = CatListViewModel(catRepository)
             viewModel.isLoading.observeForever(loadingObserver)
             viewModel.cats.observeForever(catFactsObserver)
             viewModel.eventNetworkError.observeForever(networkErrorObserver)
@@ -98,7 +95,7 @@ class CatListViewModelTest {
             Mockito.doReturn(ResultContainer(list, exception)).`when`(catRepository).refreshCats()
 
             // Act
-            val viewModel = CatListViewModel(mainApplication, catRepository)
+            val viewModel = CatListViewModel(catRepository)
             viewModel.isLoading.observeForever(loadingObserver)
             viewModel.cats.observeForever(catFactsObserver)
             viewModel.eventNetworkError.observeForever(networkErrorObserver)

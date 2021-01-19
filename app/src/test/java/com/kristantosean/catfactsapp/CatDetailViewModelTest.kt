@@ -16,6 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
@@ -43,9 +44,6 @@ class CatDetailViewModelTest {
     @Mock
     private lateinit var networkErrorObserver: Observer<Exception?>
 
-    @Mock
-    private lateinit var mainApplication: MainApplication
-
     @Before
     fun setUp() {
     }
@@ -55,15 +53,22 @@ class CatDetailViewModelTest {
         testCoroutineRule.runBlockingTest {
 
             // Arrange
-            val date = LocalDateTime.now(Clock.fixed(Instant.parse("2014-12-22T10:15:30.00Z"), ZoneId.of("UTC")))
+            val date = LocalDateTime.now(
+                Clock.fixed(
+                    Instant.parse("2014-12-22T10:15:30.00Z"),
+                    ZoneId.of("UTC")
+                )
+            )
             val cat = CatFact("test_id", "test", date, false, "api")
-            doReturn(ResultContainer(cat, null)).`when`(catRepository).getCatByID("1")
+            doReturn(ResultContainer(cat, null)).`when`(catRepository)
+                .getCatByID(ArgumentMatchers.anyString())
 
             // Act
-            val viewModel = CatDetailViewModel(mainApplication, catRepository, "1")
+            val viewModel = CatDetailViewModel(catRepository)
             viewModel.isLoading.observeForever(loadingObserver)
             viewModel.cat.observeForever(catFactObserver)
             viewModel.eventNetworkError.observeForever(networkErrorObserver)
+            viewModel.refreshDataFromRepository("1")
 
             // Assert
             argumentCaptor<CatFact>().apply {
@@ -72,11 +77,11 @@ class CatDetailViewModelTest {
             }
 
             argumentCaptor<Boolean>().apply {
-                verify(loadingObserver, times(1)).onChanged(capture())
+                verify(loadingObserver, times(3)).onChanged(capture())
             }
 
             argumentCaptor<Exception>().apply {
-                verify(networkErrorObserver, times(1)).onChanged(capture())
+                verify(networkErrorObserver, times(2)).onChanged(capture())
             }
         }
     }
@@ -86,16 +91,24 @@ class CatDetailViewModelTest {
         testCoroutineRule.runBlockingTest {
 
             // Arrange
-            val date = LocalDateTime.now(Clock.fixed(Instant.parse("2014-12-22T10:15:30.00Z"), ZoneId.of("UTC")))
+            val date = LocalDateTime.now(
+                Clock.fixed(
+                    Instant.parse("2014-12-22T10:15:30.00Z"),
+                    ZoneId.of("UTC")
+                )
+            )
             val cat = CatFact("test_id", "test", date, false, "api")
             val exception = Exception("exception")
-            doReturn(ResultContainer(cat, exception)).`when`(catRepository).getCatByID("1")
+            doReturn(ResultContainer(cat, exception)).`when`(catRepository).getCatByID(
+                ArgumentMatchers.anyString()
+            )
 
             // Act
-            val viewModel = CatDetailViewModel(mainApplication, catRepository, "1")
+            val viewModel = CatDetailViewModel(catRepository)
             viewModel.isLoading.observeForever(loadingObserver)
             viewModel.cat.observeForever(catFactObserver)
             viewModel.eventNetworkError.observeForever(networkErrorObserver)
+            viewModel.refreshDataFromRepository("1")
 
             // Assert
             argumentCaptor<CatFact>().apply {
@@ -104,11 +117,11 @@ class CatDetailViewModelTest {
             }
 
             argumentCaptor<Boolean>().apply {
-                verify(loadingObserver, times(1)).onChanged(capture())
+                verify(loadingObserver, times(3)).onChanged(capture())
             }
 
             argumentCaptor<Exception>().apply {
-                verify(networkErrorObserver, times(1)).onChanged(capture())
+                verify(networkErrorObserver, times(2)).onChanged(capture())
                 assertThat(allValues).contains(exception)
             }
         }

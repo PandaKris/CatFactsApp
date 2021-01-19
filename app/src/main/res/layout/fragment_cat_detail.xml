@@ -8,10 +8,11 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:layout_marginTop="-6dp"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTint="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
