@@ -22,11 +22,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/catID"
-            tools:text="ID" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/catID"
+                tools:text="5fd56d00b3fb8b0018359929" />
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="end"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/catDate"
+                tools:text="Dec 13, 2020" />
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -40,11 +62,6 @@
             android:id="@+id/catSource"
             tools:text="Source" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/catDate"
-            tools:text="Date" />
     </LinearLayout>
 
 

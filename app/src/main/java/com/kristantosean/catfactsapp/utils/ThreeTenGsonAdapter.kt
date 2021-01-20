@@ -11,23 +11,23 @@ import java.lang.reflect.Type
 
 object ThreeTenGsonAdapter {
 
-  fun registerLocalDate(gsonBuilder: GsonBuilder): GsonBuilder {
-    return gsonBuilder.registerTypeAdapter(LocalDateTime::class.java, LocalDateConverter())
-  }
+    fun registerLocalDate(gsonBuilder: GsonBuilder): GsonBuilder {
+        return gsonBuilder.registerTypeAdapter(LocalDateTime::class.java, LocalDateConverter())
+    }
 }
 
 class LocalDateConverter : JsonDeserializer<LocalDateTime> {
 
-  @Throws(JsonParseException::class)
-  override fun deserialize(
-    json: JsonElement,
-    typeOfT: Type,
-    context: JsonDeserializationContext
-  ): LocalDateTime {
-    return LocalDateTime.parse(json.asString, FORMATTER)
-  }
+    @Throws(JsonParseException::class)
+    override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext
+    ): LocalDateTime {
+        return LocalDateTime.parse(json.asString, FORMATTER)
+    }
 
-  companion object {
-     val FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-  }
+    companion object {
+        val FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    }
 }

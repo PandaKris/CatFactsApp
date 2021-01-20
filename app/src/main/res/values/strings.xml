@@ -6,4 +6,6 @@
     <string name="cat_detail">Cat Detail</string>
 
     <string name="id_text">ID : %1$s</string>
+    <string name="source_text">Source : %1$s</string>
+
 </resources>

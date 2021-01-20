@@ -48,7 +48,7 @@ class CatDetailFragment : Fragment() {
         catID.text = cat.id
         catText.text = cat.text
         catDate.text = cat.updatedAt?.format(dateFormatter)
-        catSource.text = cat.source
+        catSource.text = getString(R.string.source_text, cat.source)
     }
 
     private fun toggleLoading(isLoading: Boolean) {
