@@ -13,6 +13,7 @@ In this project, I am using :
 - ThreeTenABP for local date conversion
 - Gson for JSON Conversion
 - Navigation component for navigating between fragments
+- Dagger Hilt for Dependency Injection
 
 For test cases I will be using :
 - Junit 5
