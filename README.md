@@ -14,6 +14,7 @@ In this project, I am using :
 - Gson for JSON Conversion
 - Navigation component for navigating between fragments
 - Dagger Hilt for Dependency Injection
+- Kotlin Coroutines
 
 For test cases I will be using :
 - Junit 5
